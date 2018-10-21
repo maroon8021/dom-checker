@@ -1,0 +1,19 @@
+.display-none{
+  display: none;
+}
+
+.title{
+  font-family: cursive;
+  text-align: center;
+  padding-top: 15%;
+  font-size: 36px;
+}
+
+.button-area{
+  text-align: center;
+  padding-top: 16px;
+}
+
+.button-area button{
+  margin-left: 8px;
+}

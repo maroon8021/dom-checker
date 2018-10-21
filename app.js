@@ -1,14 +1,7 @@
 var Methods = require('./methods');
 var settings = require('./setting.json');
-
-var express = require("express");
-var app = express();
-
-var server = app.listen(3000, function(){
-  console.log("Node.js is listening to PORT:" + server.address().port);
-});
-
 var fs = require("fs");
+var axios = require('axios');
 
 var DomParser = require('dom-parser');
 var parser = new DomParser();
@@ -19,27 +12,46 @@ var domChanger = new JSDOM();
 
 var methods = new Methods(domChanger.window.document);
 
-for (var index = 0; index < settings.targetFiles.length; index++) {
-  fs.readFile(settings.targetFiles[index], {encoding: 'utf-8'}, function(err, data){
+var express = require("express");
+var multer = require('multer');
+var app = express();
+app.set('view engine', 'ejs');
+app.use(express.static('public'));
+var server = app.listen(3000, function(){
+  console.log("Node.js is listening to PORT:" + server.address().port);
+});
+
+app.get('/dom-checker', function(req, res, next){
+  res.render('dom-checker', {axios});
+});
+
+var upload = multer({dest: 'uploaded'});
+app.post('/upload', upload.single('upload'), function(req, res){
+  fs.readFile(req.file.path, {encoding: 'utf-8'}, function(err, data){
     if(err){
       return;
     }
     var html = parser.parseFromString(data, "text/html");
     methods.setTargetHtml(html.rawHTML);
     methods.run();
-    console.log('huga');
 
-    fs.writeFile('./output/changed_'+settings.targetFiles, methods.getBodyHTML());
+    var fileName = 'output/changed_' + req.file.originalname;
+    fs.writeFile(fileName, methods.getBodyHTML(), function(err){
+      if(err){
+        console.log('Error');
+      }
+      res.download(fileName);
+    });
   });  
-}
+});
 
-console.log('hoge');
+
 
 
 /* 
 ■メモ
-アップロードしたファイルを変更して、ダウンロードできるようにしたい
-https://tyfkda.github.io/blog/2016/03/01/nodejs-web-server.html
-https://code-examples.net/ja/q/6f37ee
+eslint入れたい
+エラーハンドリング
+axiosとかでクライアントで受け取れるようにしたい
 
 */
