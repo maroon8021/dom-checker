@@ -1,4 +1,4 @@
-var Methods = require('./methods');
+var Methods = require('./server-side/methods');
 var settings = require('./setting.json');
 var fs = require("fs");
 var axios = require('axios');
@@ -6,11 +6,7 @@ var axios = require('axios');
 var DomParser = require('dom-parser');
 var parser = new DomParser();
 
-var jsdom = require("jsdom");
-var JSDOM = jsdom.JSDOM;
-var domChanger = new JSDOM();
-
-var methods = new Methods(domChanger.window.document);
+var methods = new Methods();
 
 var express = require("express");
 var multer = require('multer');
