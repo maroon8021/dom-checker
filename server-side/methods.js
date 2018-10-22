@@ -5,11 +5,12 @@ var domChanger = new JSDOM();
 var Methods = function () {
   this.document_ = domChanger.window.document;
   this.fixArea_ = this.document_.createElement('div');
+  this.htmlStr_ = [];
 }
 
 /**** public logic ****/
 Methods.prototype.setTargetHtml = function(htmlData){
-  this.fixArea_.innerHTML = htmlData;
+  this.htmlStr_ = htmlData.split(/\n/);
 }
 
 Methods.prototype.run = function(){
@@ -18,6 +19,11 @@ Methods.prototype.run = function(){
 
 Methods.prototype.getBodyHTML = function(){
   return this.fixArea_.innerHTML;
+  var result = ''
+  for(i=0; i < huga.length; i++){
+    result += (huga[i] + '\n') 
+  }
+  return result;
 }
 
 /**** change logic ****/
