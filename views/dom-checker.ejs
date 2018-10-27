@@ -8,12 +8,13 @@
 <body>
   <div class="title">dom-checker</div>
   <div class="field button-area">
-    <form action="upload" method="POST" enctype="multipart/form-data">
+    <form id="form-area" action="upload" method="POST" enctype="multipart/form-data">
       <label for="file-uploader" class="button">Upload a File
         <input id="file-uploader" type="file" name="upload" class="display-none">
       </label>
-      <button type="submit" id="run-button" class="button is-link">Run</button>
+      <button type="submit" id="run-button_" class="button is-link">Run</button>
     </form>
+    <button type="submit" id="run-button" class="button is-link">Run</button>
   </div>
 
   <script src="./js/main.js"></script>
